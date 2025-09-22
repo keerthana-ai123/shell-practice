@@ -25,6 +25,6 @@ dnf install nginx -y
 VALIDATE $? "Nginx"
 
 
-dnf install phyton3 -y
-VALIDATE $? "phyton3"
+dnf install python3 -y
+VALIDATE $? "python3"
 
