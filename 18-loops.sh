@@ -31,5 +31,14 @@ fi
 
 for package in $@
 do
-    echo "Package is: $package"
+    # check package is already installed or not
+    dnf list installed $package &>>$LOG_FILE
+
+    # if exit status is 0, already installed. -ne 0 need to install it
+    if [ $? -ne 0 ]; then
+        dnf install $package -y &>>$LOG_FILE
+        VALIDATE $? "$PACKAGE"
+    else
+        echo -e "$package already installed ... $Y SKIPPING $N"
+    fi
 done
