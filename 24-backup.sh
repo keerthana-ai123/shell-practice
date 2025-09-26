@@ -34,25 +34,27 @@ if [ $# -lt 2 ]; then
     USAGE
 fi
 
-if [ ! -d $SOURCE_DIR ]; then
+if [ ! -d "$SOURCE_DIR" ]; then
    echo -e "$R Source $SOURCE_DIR does not exist $N"
    exit 1
 fi
 
-if [ ! -d $DEST_DIR ]; then
+if [ ! -d "$DEST_DIR" ]; then
    echo -e "$R Destination $DEST_DIR does not exist $N"
    exit 1
 fi
 
-FILES=$(find $SOURCE_DIR -name "*.log" -type f -mtime +$DAYS)
+FILES=$(find "$SOURCE_DIR" -name "*.log" -type f -mtime +"$DAYS")
 
-if [ ! -z "${FILES}" ]; then
+if [ -n "$FILES" ]; then
     echo "Files Found"
     TIMESTAMP=$(date +%F-%H-%M)
-    ZIP_FILE_NAME="$DEST_DIR/app-logos-$TIMESTAMP.zip"
-   
+    ZIP_FILE_NAME="$DEST_DIR/app-logs-$TIMESTAMP.zip"
+    zip -r "$ZIP_FILE_NAME" $FILES
+    echo "Archived to $ZIP_FILE_NAME"
 else
-    echo -e "No files to archieve.... $Y SKIPPING $N"
+    echo -e "No files to archive.... $Y SKIPPING $N"
+    exit 0
 fi
 
 
