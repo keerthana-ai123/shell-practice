@@ -6,6 +6,8 @@ Y="\e[33m"
 N="\e[0m"
 SOURCE_DIR=$1
 DEST_DIR=$2
+DAYS=${3:-14} # if not provided considered as 14 days
+
 
 LOGS_FOLDER="/var/log/shell-script"
 SCRIPT_NAME=$( echo $0 | cut -d "." -f1 )
@@ -41,3 +43,14 @@ if [ ! -d $DEST_DIR ]; then
    echo -e "$R Destination $DEST_DIR does not exist $N"
    exit 1
 fi
+
+FILES=$(find $SOURCE_DIR -name "*.log" -type f -mtime +14)
+
+if [ ! -z "${FILES}"]; then
+    echo "Files Found"
+else
+    echo "No files to archieve.... $Y SKIPPING $N"
+fi
+
+
+
